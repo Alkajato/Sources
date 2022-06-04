@@ -52,10 +52,11 @@ fn main() {
         }
 
         println!("\nIs the correct library in this folder?");
-    } else {
-        sorted
-            .iter()
-            .filter(|entry| entry.score > 0)
-            .for_each(|entry| println!("{entry}"));
+        
+        return;
+    }
+    
+    for entry in sorted.iter().filter(|entry| entry.score > 0) {
+        println!("{entry}");
     }
 }
