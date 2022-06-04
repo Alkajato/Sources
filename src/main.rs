@@ -26,33 +26,36 @@ fn main() {
     // For some reason the first arg is always the executable.
     if args.len() == 1 {
         println!("Usage: sf Tag1 Tag2 Tag3....");
-        println!("Nothing is printed if no results are found");
-        println!("Current folder should contain file(s) ending with \" Library.txt\"");
-    } else {
-        let libs = get_libraries();
-        if libs.len() == 0 {
-            println!("No libraries found in current folder");
-        } else {
-            // Gather all "* Library.txt" files into the entries Vec.
-            let mut entries: Vec<entry::Entry> = Vec::new();
-            for each in libs {
-                entries.extend(entry::get_entries(&each));
-            }
+        println!("Current folder should contain file(s) named similar to \"* Library.txt\"");
 
-            let sorted = entry::sort_by_tags(entries, &args);
-            if sorted.iter().all(|item| item.score == 0) {
-                print!("No matches for: ");
-                for arg in env::args().skip(1) {
-                    print!("{arg}");
-                }
+        return;
+    }
 
-                println!("\nIs the correct library in the current folder?");
-            } else {
-                sorted
-                    .iter()
-                    .filter(|entry| entry.score > 0)
-                    .for_each(|entry| println!("{entry}"));
-            }
+    let libs = get_libraries();
+    if libs.len() == 0 {
+        println!("No libraries found in current folder");
+
+        return;
+    }
+
+    // Gather all "* Library.txt" files into the entries Vec.
+    let mut entries: Vec<entry::Entry> = Vec::new();
+    for each in libs {
+        entries.extend(entry::get_entries(&each));
+    }
+
+    let sorted = entry::sort_by_tags(entries, &args);
+    if sorted.iter().all(|item| item.score == 0) {
+        print!("No matches for: ");
+        for arg in env::args().skip(1) {
+            print!("{arg}");
         }
+
+        println!("\nIs the correct library in this folder?");
+    } else {
+        sorted
+            .iter()
+            .filter(|entry| entry.score > 0)
+            .for_each(|entry| println!("{entry}"));
     }
 }
