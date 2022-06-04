@@ -6,7 +6,7 @@ fn get_library_file_names() -> Vec<String> {
         .unwrap()
         .into_iter()
         .map(|entry| entry.unwrap().path().to_str().unwrap().into())
-        .filter(|the: &String| the.contains(" Library.txt"))
+        .filter(|file_name: &String| file_name.contains(" Library.txt"))
         .collect()
 }
 
