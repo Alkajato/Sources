@@ -11,12 +11,6 @@ fn get_libraries() -> Vec<String> {
         .collect()
 }
 
-/// File format of a library below:
-/// [tags, tag1, tag tag tag another_tag more tags The entire string will show up who cares how its separated]
-/// { source links separated by whatever you want I guess it shows the whole string lol }
-/// Main content--plain text--with potentially indefinite number of newlines.
-/// An entry only "ends" because end of file or another entry began.
-/// The syntax is very forgiving just have the right starting and ending characters.
 fn main() {
     // First args is target\debug\library_reader.exe when cargo run the project.
     // Otherwise args is just what is inputted as expected.
@@ -34,7 +28,6 @@ fn main() {
     let libs = get_libraries();
     if libs.len() == 0 {
         println!("No libraries found in current folder");
-
         return;
     }
 
@@ -50,8 +43,6 @@ fn main() {
         for arg in env::args().skip(1) {
             print!("{arg}");
         }
-
-        println!("\nIs the correct library in this folder?");
         
         return;
     }
