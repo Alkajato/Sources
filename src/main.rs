@@ -2,7 +2,7 @@ use std::env;
 use std::fs;
 mod entry;
 
-fn list_libraries() -> Vec<String> {
+fn get_library_file_names() -> Vec<String> {
     fs::read_dir("./")
         .unwrap()
         .into_iter()
@@ -25,7 +25,7 @@ fn main() {
         return;
     }
 
-    let libs = list_libraries();
+    let libs = get_library_file_names();
     if libs.len() == 0 {
         println!("No libraries found in current folder");
         return;
