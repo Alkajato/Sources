@@ -34,8 +34,7 @@ fn main() {
     // Gather all "* Library.txt" files into the entries Vec.
     let entries: Vec<entry::Entry> = libs
         .into_iter()
-        .map(|name| entry::get_entries(&name))
-        .flatten()
+        .flat_map(|name| entry::get_entries(&name))
         .collect();
 
     let sorted = entry::sort_by_tags(entries, &args);
