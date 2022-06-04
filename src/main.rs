@@ -32,10 +32,11 @@ fn main() {
     }
 
     // Gather all "* Library.txt" files into the entries Vec.
-    let mut entries: Vec<entry::Entry> = Vec::new();
-    for each in libs {
-        entries.extend(entry::get_entries(&each));
-    }
+    let entries: Vec<entry::Entry> = libs
+        .into_iter()
+        .map(|name| entry::get_entries(&name))
+        .flatten()
+        .collect();
 
     let sorted = entry::sort_by_tags(entries, &args);
     if sorted.iter().all(|item| item.score == 0) {
@@ -43,10 +44,10 @@ fn main() {
         for arg in env::args().skip(1) {
             print!("{arg}");
         }
-        
+
         return;
     }
-    
+
     for entry in sorted.iter().filter(|entry| entry.score > 0) {
         println!("{entry}");
     }
