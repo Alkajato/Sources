@@ -10,7 +10,7 @@ fn main() {
     // For some reason the first arg is always the executable.
     if args.len() == 1 {
         println!("Usage: sf Tag1 Tag2 Tag3....");
-        println!("Current folder should contain file(s) with taglines \"[tag1 tag2 tag3]\" and source lines afterwards \"{{source1 source2 source3}}\"");
+        println!("Current folder should have file with tag line(s) \"[tag1 tag2 tag3]\" and source line(s) next \"{{source1 source2 source3}}\"");
 
         return;
     }
