@@ -1,4 +1,4 @@
-use std::fs::read;
+use std::fs::{read, self};
 
 #[derive(Clone)]
 pub struct Entry {
@@ -101,6 +101,33 @@ pub fn sort_by_tags(input: Vec<Entry>, args: &Vec<String>) -> Vec<Entry> {
     entries
 }
 
+pub fn get_library_file_names() -> Vec<String> {
+    fs::read_dir("./")
+        .unwrap()
+        .into_iter()
+        .map(|entry| entry.unwrap().path().to_str().unwrap().into())
+        .filter(|file_name: &String| is_library(file_name))
+        .collect()
+}
+
+// Check if file contains even one tag line, with sources line afterwards.
+pub fn is_library(file: &str) -> bool {
+    if !file.contains(".txt") {
+        return false;
+    }
+    
+    let input = lines(file);
+    
+
+    for i in 1..input.len() {
+        if is_tags(&input[i - 1]) && is_sources(&input[i]) {
+            return true;
+        }
+    }
+
+    false
+}
+
 /// Returns a Vec of Vec<u8> with each Vec<u8> being each line from the file.
 fn lines(file: &str) -> Vec<Vec<u8>> {
     let mut input = read(file).expect("File not found");
@@ -124,14 +151,16 @@ fn lines(file: &str) -> Vec<Vec<u8>> {
     output
 }
 
-fn get_entry(entry: i32, lines: &Vec<Vec<u8>>) -> Option<Vec<Vec<u8>>> {
+// Get entry from lines from guaranteed library file.
+// Freezes indefinitely if ran on non-library file.
+fn get_entry(target_entry: i32, lines: &Vec<Vec<u8>>) -> Option<Vec<Vec<u8>>> {
     let mut output = Vec::new();
-    if entry <= 0 {
+    if target_entry <= 0 {
         return None;
     }
 
     let (mut entry_index, mut entry_count) = (0, 0);
-    while entry_count < entry {
+    while entry_count < target_entry {
         if entry_index >= lines.len() {
             return None;
         }

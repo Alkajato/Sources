@@ -1,14 +1,5 @@
-use std::{env, fs};
+use std::env;
 mod entry;
-
-fn get_library_file_names() -> Vec<String> {
-    fs::read_dir("./")
-        .unwrap()
-        .into_iter()
-        .map(|entry| entry.unwrap().path().to_str().unwrap().into())
-        .filter(|file_name: &String| file_name.contains(" Library.txt"))
-        .collect()
-}
 
 fn main() {
     // First args is target\debug\library_reader.exe when cargo run the project.
@@ -24,13 +15,13 @@ fn main() {
         return;
     }
 
-    let libs = get_library_file_names();
+    let libs = entry::get_library_file_names();
     if libs.len() == 0 {
         println!("No libraries found in current folder");
         return;
     }
 
-    // Gather all "* Library.txt" files into the entries Vec.
+    // Gather all .txt files that are libraries into the entries Vec.
     let entries: Vec<entry::Entry> = libs
         .into_iter()
         .flat_map(|name| entry::get_entries(&name))
