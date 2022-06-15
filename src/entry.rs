@@ -102,12 +102,18 @@ pub fn sort_by_tags(input: Vec<Entry>, args: &Vec<String>) -> Vec<Entry> {
 }
 
 pub fn get_library_file_names() -> Vec<String> {
-    fs::read_dir("./")
+    let output = fs::read_dir("./")
         .unwrap()
         .into_iter()
         .map(|entry| entry.unwrap().path().to_str().unwrap().into())
         .filter(|file_name: &String| is_library(file_name))
-        .collect()
+        .collect();
+
+    for each in &output {
+        println!("{}", each);
+    }
+
+    output
 }
 
 // Check if file contains even one tag line, with sources line afterwards.
@@ -117,7 +123,6 @@ pub fn is_library(file: &str) -> bool {
     }
     
     let input = lines(file);
-    
 
     for i in 1..input.len() {
         if is_tags(&input[i - 1]) && is_sources(&input[i]) {
@@ -131,8 +136,16 @@ pub fn is_library(file: &str) -> bool {
 /// Returns a Vec of Vec<u8> with each Vec<u8> being each line from the file.
 fn lines(file: &str) -> Vec<Vec<u8>> {
     let mut input = read(file).expect("File not found");
+    
+    
 
     let (mut len, mut output, ln) = (input.len(), Vec::new(), '\n' as u8);
+
+    // If file is empty return empty lines.
+    if len == 0 {
+        return vec![vec![]];
+    }
+
     if input[len - 1] != ln {
         input.push(ln);
         len += 1;
