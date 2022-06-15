@@ -109,10 +109,6 @@ pub fn get_library_file_names() -> Vec<String> {
         .filter(|file_name: &String| is_library(file_name))
         .collect();
 
-    for each in &output {
-        println!("{}", each);
-    }
-
     output
 }
 
