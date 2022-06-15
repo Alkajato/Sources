@@ -40,24 +40,23 @@ pub fn get_entries(file: &str) -> Vec<Entry> {
     let input = lines(file);
     let mut output = Vec::new();
 
-    for i in 0.. {
-        if let Some(lines) = get_entry((i + 1) as i32, &input) {
-            output.push(Entry::new());
+    let mut i = 0;
+    while let Some(lines) = get_entry((i + 1) as i32, &input) {
+        output.push(Entry::new());
 
-            for line in lines {
-                let current_line: String = String::from_utf8_lossy(&line).to_string();
+        for line in lines {
+            let current_line: String = String::from_utf8_lossy(&line).to_string();
 
-                if is_tags(&line) {
-                    output[i].tags = line;
-                } else if is_sources(&line) {
-                    output[i].sources = current_line;
-                } else {
-                    output[i].description.push(current_line);
-                }
+            if is_tags(&line) {
+                output[i].tags = line;
+            } else if is_sources(&line) {
+                output[i].sources = current_line;
+            } else {
+                output[i].description.push(current_line);
             }
-        } else {
-            break;
         }
+
+        i += 1;
     }
 
     output
