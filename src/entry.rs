@@ -102,14 +102,12 @@ pub fn sort_by_tags(input: Vec<Entry>, args: &Vec<String>) -> Vec<Entry> {
 }
 
 pub fn get_library_file_names() -> Vec<String> {
-    let output = fs::read_dir("./")
+    fs::read_dir("./")
         .unwrap()
         .into_iter()
         .map(|entry| entry.unwrap().path().to_str().unwrap().into())
         .filter(|file_name: &String| is_library(file_name))
-        .collect();
-
-    output
+        .collect()
 }
 
 // Check if file contains even one tag line, with sources line afterwards.
