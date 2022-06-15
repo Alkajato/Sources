@@ -8,8 +8,3 @@ File format of a library below:
 Main content--plain text--with potentially indefinite number of newlines.
 An entry only "ends" because end of file or another entry began.
 The syntax is very forgiving just have the right starting and ending characters per line.
-
-# Include 
-[dependencies]
-
-library_reader = { git = "https://github.com/Alkajato/Sources", branch = "main" }
