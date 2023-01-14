@@ -2,7 +2,7 @@
 CLI Program for parsing specially formatted text files based on inputted tags.                       
 File format of a library below:
 
-[tags, tag1, tag another_tag more_tags duplicates do not add extra to scores for sorting entries]                         
+[tags tag1 tag another_tag more_tags duplicates do not add extra to scores for sorting entries]                         
 { source links separated by whitespace }
 
 Main content--plain text--with potentially indefinite number of newlines.
