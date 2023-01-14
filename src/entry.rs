@@ -1,4 +1,4 @@
-use std::fs::{read, self};
+use std::fs::{self, read};
 
 #[derive(Clone)]
 pub struct Entry {
@@ -64,10 +64,10 @@ pub fn get_entries(file: &str) -> Vec<Entry> {
 
 /// Sorts input entries by count of how many tags the tag line contains.
 /// Higher scoring entries are near the beginning!
-pub fn sort_by_tags(input: Vec<Entry>, args: &Vec<String>) -> Vec<Entry> {
-    let mut entries = input.clone();
+pub fn sort_by_tags(input: Vec<Entry>, args: &[String]) -> Vec<Entry> {
+    let mut entries = input;
     // Remove duplicate args so they can each only count once.
-    let mut de_dup_args = args.clone();
+    let mut de_dup_args = args.to_owned();
     de_dup_args.sort();
     de_dup_args.dedup();
 
@@ -100,6 +100,7 @@ pub fn sort_by_tags(input: Vec<Entry>, args: &Vec<String>) -> Vec<Entry> {
     entries
 }
 
+/// Returns all .txt files at current working directory that contain entries.
 pub fn get_library_file_names() -> Vec<String> {
     fs::read_dir("./")
         .unwrap()
@@ -114,7 +115,7 @@ pub fn is_library(file: &str) -> bool {
     if !file.contains(".txt") {
         return false;
     }
-    
+
     let input = lines(file);
 
     for i in 1..input.len() {
@@ -129,10 +130,7 @@ pub fn is_library(file: &str) -> bool {
 /// Returns a Vec of Vec<u8> with each Vec<u8> being each line from the file.
 fn lines(file: &str) -> Vec<Vec<u8>> {
     let mut input = read(file).expect("File not found");
-    
-    
-
-    let (mut len, mut output, ln) = (input.len(), Vec::new(), '\n' as u8);
+    let (mut len, mut output, ln) = (input.len(), Vec::new(), b'\n');
 
     // If file is empty return empty lines.
     if len == 0 {
@@ -194,9 +192,9 @@ fn get_entry(target_entry: i32, lines: &Vec<Vec<u8>>) -> Option<Vec<Vec<u8>>> {
 // Check the beginning and ending character to tell if something is tags or sources.
 // We use len - 2 in both below because len - 1 is the newline at the end of the line.
 fn is_tags(str: &Vec<u8>) -> bool {
-    str[0] == '[' as u8 && str[str.len() - 2] == ']' as u8
+    str[0] == b'[' && str[str.len() - 2] == b']'
 }
 
 fn is_sources(str: &Vec<u8>) -> bool {
-    str[0] == '{' as u8 && str[str.len() - 2] == '}' as u8
+    str[0] == b'{' && str[str.len() - 2] == b'}'
 }

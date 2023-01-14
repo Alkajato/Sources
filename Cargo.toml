@@ -11,4 +11,4 @@ edition = "2018"
 [profile.release]
 lto = true
 strip = true
-
+panic = "abort"
