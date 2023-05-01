@@ -94,7 +94,7 @@ fn score_entry(args: &[String], tags: &str) -> usize {
 
 #[test]
 fn test_scoring() {
-    let tags = vec!["Bevy", "How", "To", "Spawn"];
+    let tags = vec!["Github", "How", "To", "Push", "Changes"];
     let args: Vec<String> = tags.iter().map(|st| st.to_string()).collect();
     for entry in scored_entries(&args, "D:\\Documents\\Study") {
         println!("{entry}");
