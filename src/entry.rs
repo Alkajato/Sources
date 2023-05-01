@@ -25,7 +25,6 @@ pub fn scored_entries(args: &[String], in_dir: &str) -> Vec<String> {
 fn get_libraries(in_dir: &str) -> Vec<String> {
     fs::read_dir(in_dir)
         .expect("Unable to open current directory!")
-        .into_iter()
         .filter_map(|entry| {
             let Ok(entry) = entry else {
                 return None;
