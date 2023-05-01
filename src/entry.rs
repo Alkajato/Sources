@@ -1,7 +1,4 @@
-use std::{
-    fs::{self, read},
-    str,
-};
+use std::{fs, str};
 
 pub fn scored_entries(args: &[String], in_dir: &str) -> Vec<String> {
     let files_here = get_libraries(in_dir);
@@ -32,7 +29,7 @@ fn get_libraries(in_dir: &str) -> Vec<String> {
 /// Creates list of entries from file.
 /// Failure to read file, or then to interpret as utf8, returns `None`.
 fn entries_from(file: &str) -> Option<Vec<String>> {
-    let Ok(read_file) = read(file) else {
+    let Ok(read_file) = fs::read(file) else {
         return None;
     };
 
