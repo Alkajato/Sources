@@ -1,7 +1,12 @@
 use std::{fs, str};
 
+/// Returns all entries from all files in current directory that were parsable as a library.
 pub fn scored_entries(args: &[String], in_dir: &str) -> Vec<String> {
-    let files_here = get_libraries(in_dir);
+    let files_here: Vec<String> = fs::read_dir(in_dir)
+        .expect("Unable to open current directory!")
+        .filter_map(|entry| entry.ok()?.path().to_str().map(String::from))
+        .collect();
+
     let mut entries: Vec<(usize, String)> = files_here
         .iter()
         .filter_map(|file| entries_from(file))
@@ -16,14 +21,6 @@ pub fn scored_entries(args: &[String], in_dir: &str) -> Vec<String> {
     // Sort entries by score.
     entries.sort_by_key(|pair| pair.0);
     entries.into_iter().map(|(_, entry)| entry).rev().collect()
-}
-
-/// Returns all entries from all files in current directory that were parsable as a library.
-fn get_libraries(in_dir: &str) -> Vec<String> {
-    fs::read_dir(in_dir)
-        .expect("Unable to open current directory!")
-        .filter_map(|entry| entry.ok()?.path().to_str().map(String::from))
-        .collect()
 }
 
 /// Creates list of entries from file.
