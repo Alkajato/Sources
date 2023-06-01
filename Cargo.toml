@@ -4,6 +4,14 @@ version = "0.1.0"
 edition = "2018"
 
 
+[lib]
+name = "sources"
+path = "src/lib.rs"
+
+[[bin]]
+name = "sources"
+path = "src/main.rs"
+
 [profile.release]
 lto = true
 strip = "symbols"
