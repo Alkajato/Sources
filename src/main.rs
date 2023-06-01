@@ -1,7 +1,5 @@
-// use entry::scored_entries;
-use std::env;
-// mod entry;
 use sources::scored_entries;
+use std::env;
 
 fn main() {
     // First args is target\debug\library_reader.exe when cargo run the project.
